@@ -89,46 +89,17 @@ h1{
     background:#01411C;
 }
 
-.footer{
-    text-align:center;
-    margin-top:20px;
-    font-size:14px;
-    color:#777;
-}
-
-#continueBtn{
-    opacity:.5;
-    pointer-events:none;
-}
-
-.countdown{
-    text-align:center;
-    margin-top:10px;
-    color:#01411C;
-    font-weight:bold;
-}
-    .follow-btn{
+/* TikTok Follow Button */
+.follow-btn{
     display:flex;
     align-items:center;
     justify-content:center;
     gap:10px;
-    background:linear-gradient(135deg,#000000,#25F4EE,#FE2C55);
+    background:linear-gradient(135deg,#000,#25F4EE,#FE2C55);
     color:#fff;
-    text-decoration:none;
-    padding:18px;
-    margin:16px 0;
-    border-radius:18px;
-    font-size:22px;
-    font-weight:bold;
     box-shadow:0 10px 25px rgba(0,0,0,.25);
-    transition:all .3s ease;
     position:relative;
     overflow:hidden;
-}
-
-.follow-btn:hover{
-    transform:translateY(-4px) scale(1.03);
-    box-shadow:0 15px 35px rgba(254,44,85,.4);
 }
 
 .follow-btn::before{
@@ -147,8 +118,23 @@ h1{
     left:120%;
 }
 
-.follow-btn span{
-    font-size:26px;
+.follow-btn:hover{
+    transform:translateY(-4px) scale(1.03);
+    box-shadow:0 15px 35px rgba(254,44,85,.4);
+}
+
+.footer{
+    text-align:center;
+    margin-top:20px;
+    font-size:14px;
+    color:#777;
+}
+
+.countdown{
+    text-align:center;
+    margin-top:10px;
+    color:#01411C;
+    font-weight:bold;
 }
 </style>
 
@@ -168,23 +154,37 @@ h1{
 <div class="info">
 <b>گیو اوے میں شرکت کریں</b><br><br>
 
-ہمارے TikTok کی ویڈیو دیکھیں۔ ویڈیو مکمل ہونے کے بعد آپ نیچے موجود بٹن کے ذریعے ہمارے آفیشل گیو اوے میں شرکت کر سکتے ہیں۔
+پہلے ہمارا TikTok اکاؤنٹ فالو کریں، پھر ویڈیو دیکھیں۔
+اس کے بعد Giveaway میں شرکت کا بٹن ظاہر ہوگا۔
 
 <br><br>
 
 <b>نوٹ:</b> اس گیو اوے میں شرکت کرنا جیتنے کی ضمانت نہیں دیتا۔
 </div>
-    <a class="btn follow-btn" href="https://www.tiktok.com/" target="_blank">
-    <span>🎵</span> Follow our TikTok Account
+
+<!-- Follow Button -->
+<a class="btn follow-btn"
+   href="https://www.tiktok.com/@yourusername"
+   target="_blank"
+   id="followBtn">
+🎵 Follow our TikTok Account
 </a>
 
-<a class="btn blue" href="https://www.tiktok.com/" target="_blank" id="watchBtn">
+<!-- Watch Video -->
+<a class="btn blue"
+   href="https://www.tiktok.com/"
+   target="_blank"
+   id="watchBtn">
 🎥 TikTok ویڈیو دیکھیں
 </a>
 
 <div class="countdown" id="timer"></div>
 
-<a class="btn green" href="#" id="continueBtn">
+<!-- Hidden Initially -->
+<a class="btn green"
+   href="#"
+   id="continueBtn"
+   style="display:none;opacity:.5;pointer-events:none;">
 🎁 Giveaway میں شرکت کریں
 </a>
 
@@ -195,42 +195,62 @@ h1{
 </div>
 
 <script>
+const followBtn = document.getElementById("followBtn");
 const watchBtn = document.getElementById("watchBtn");
 const continueBtn = document.getElementById("continueBtn");
 const timer = document.getElementById("timer");
 
-watchBtn.addEventListener("click", function(){
+let followed = false;
 
-let seconds = 15;
+// User clicks Follow
+followBtn.addEventListener("click", function(){
+    followed = true;
+});
 
-timer.innerHTML = "براہ کرم " + seconds + " سیکنڈ انتظار کریں...";
+// User clicks Watch Video
+watchBtn.addEventListener("click", function(e){
 
-const interval = setInterval(function(){
+    if(!followed){
+        e.preventDefault();
+        alert("⚠ پہلے ہمارا TikTok اکاؤنٹ Follow کریں۔");
+        return;
+    }
 
-seconds--;
+    let seconds = 15;
 
-timer.innerHTML = "براہ کرم " + seconds + " سیکنڈ انتظار کریں...";
+    timer.innerHTML = "براہ کرم " + seconds + " سیکنڈ انتظار کریں...";
 
-if(seconds <= 0){
+    continueBtn.style.display = "block";
+    continueBtn.style.opacity = ".5";
+    continueBtn.style.pointerEvents = "none";
 
-clearInterval(interval);
+    const interval = setInterval(function(){
 
-timer.innerHTML = "✅ اب آپ گیو اوے میں شرکت کر سکتے ہیں۔";
+        seconds--;
 
-continueBtn.style.opacity = "1";
-continueBtn.style.pointerEvents = "auto";
+        timer.innerHTML = "براہ کرم " + seconds + " سیکنڈ انتظار کریں...";
 
-}
+        if(seconds <= 0){
 
-},1000);
+            clearInterval(interval);
+
+            timer.innerHTML = "✅ اب آپ گیو اوے میں شرکت کر سکتے ہیں۔";
+
+            continueBtn.style.opacity = "1";
+            continueBtn.style.pointerEvents = "auto";
+
+        }
+
+    },1000);
 
 });
 
-continueBtn.addEventListener("click", function(e){
+// Giveaway Button
+continueBtn.addEventListener("click",function(e){
 
-e.preventDefault();
+    e.preventDefault();
 
-alert("🎉 شکریہ! آپ کی گیو اوے انٹری جمع کر دی گئی۔");
+    alert("🎉 شکریہ! آپ کی گیو اوے انٹری جمع کر دی گئی۔");
 
 });
 </script>
