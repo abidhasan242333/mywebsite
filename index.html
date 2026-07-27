@@ -107,6 +107,49 @@ h1{
     color:#01411C;
     font-weight:bold;
 }
+    .follow-btn{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    background:linear-gradient(135deg,#000000,#25F4EE,#FE2C55);
+    color:#fff;
+    text-decoration:none;
+    padding:18px;
+    margin:16px 0;
+    border-radius:18px;
+    font-size:22px;
+    font-weight:bold;
+    box-shadow:0 10px 25px rgba(0,0,0,.25);
+    transition:all .3s ease;
+    position:relative;
+    overflow:hidden;
+}
+
+.follow-btn:hover{
+    transform:translateY(-4px) scale(1.03);
+    box-shadow:0 15px 35px rgba(254,44,85,.4);
+}
+
+.follow-btn::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:-100%;
+    width:100%;
+    height:100%;
+    background:rgba(255,255,255,.25);
+    transform:skewX(-25deg);
+    transition:.6s;
+}
+
+.follow-btn:hover::before{
+    left:120%;
+}
+
+.follow-btn span{
+    font-size:26px;
+}
 </style>
 
 </head>
@@ -141,8 +184,8 @@ h1{
 <a class="btn green" href="#" id="continueBtn">
 🎁 Giveaway میں شرکت کریں
 </a>
-<a class="btn green" href="#" id="continueBtn">
- Follow our Tiktok Account
+<a class="btn follow-btn" href="https://www.tiktok.com/@yourusername" target="_blank">
+    <span>🎵</span> Follow our TikTok Account
 </a>
 <div class="footer">
 شرائط و ضوابط لاگو ہیں۔
